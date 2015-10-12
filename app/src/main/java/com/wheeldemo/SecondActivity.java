@@ -1,11 +1,6 @@
 package com.wheeldemo;
 
-import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.library_wheel.ProvincesFragment;
@@ -13,7 +8,10 @@ import com.library_wheel.SelectTimeFragment;
 
 import cascade.activity.BaseActivity;
 
-public class MainActivity extends FragmentActivity implements  SelectTimeFragment.OnSelectTimeListener {
+/**
+ * Created by Administrator on 2015/10/12.
+ */
+public class SecondActivity extends BaseActivity implements ProvincesFragment.OnSelectListener {
     private TextView resultTv;
 
     @Override
@@ -21,15 +19,16 @@ public class MainActivity extends FragmentActivity implements  SelectTimeFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_2);
         resultTv = (TextView) findViewById(R.id.result_select);
-        SelectTimeFragment fragment = SelectTimeFragment.newInstance();
-        fragment.setOnSelectTimeListener(this);
-        fragment.setShowAll(false);
+        initProvinceDatas();
+        ProvincesFragment fragment = ProvincesFragment.newInstance(mProvinceDatas, mCitisDatasMap, mDistrictDatasMap);
+        fragment.setOnSelectListener(this);
         getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commitAllowingStateLoss();
     }
 
-
     @Override
-    public void onSlectTime(int year, int month, int day, int hour, int minute) {
-        resultTv.setText(year + "#" + month + "#" + day + "#" + hour + "#" + minute);
+    public void onSelect(String province, String city, String area) {
+        resultTv.setText(province + "#" + city + "#" + area);
     }
+
+
 }
